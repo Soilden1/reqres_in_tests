@@ -85,7 +85,7 @@ gradle clean test
 ### Основное окно
 
 <p align="center">
-<a href="https://allure.autotests.cloud/project/3967/dashboards"><img title="Allure TestOps" src="media/images/allureDashboard.png"></a>
+<a href="https://allure.autotests.cloud/project/3967/dashboards"><img title="Allure TestOps" src="media/images/allureTestOpsDashboard.png"></a>
 </p>
 
 ### Автотесты в Allure
