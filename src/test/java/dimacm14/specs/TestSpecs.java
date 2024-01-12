@@ -14,13 +14,17 @@ public class TestSpecs {
 
     public static RequestSpecification withoutBodyRequestSpec = with()
             .filter(withCustomTemplates())
+            .baseUri("https://reqres.in")
+            .basePath("/api")
             .log().uri();
 
     public static RequestSpecification bodyRequestSpec = with()
             .filter(withCustomTemplates())
             .log().uri()
             .log().body()
-            .contentType(JSON);
+            .contentType(JSON)
+            .baseUri("https://reqres.in")
+            .basePath("/api");;
 
     public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .log(STATUS)
