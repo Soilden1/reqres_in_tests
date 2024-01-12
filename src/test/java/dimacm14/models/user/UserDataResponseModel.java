@@ -1,4 +1,4 @@
-package dimacm14.models;
+package dimacm14.models.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

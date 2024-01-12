@@ -1,6 +1,10 @@
 package dimacm14.tests;
 
-import dimacm14.models.*;
+import dimacm14.models.createUser.CreateUserBodyModel;
+import dimacm14.models.createUser.CreateUserResponseModel;
+import dimacm14.models.user.UpdateUserResponseModel;
+import dimacm14.models.user.UserListResponseModel;
+import dimacm14.models.user.UserResponseModel;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Severity;
@@ -12,14 +16,14 @@ import static dimacm14.specs.TestSpecs.*;
 import static io.qameta.allure.Allure.step;
 import static io.qameta.allure.SeverityLevel.BLOCKER;
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@Tag("reqresIn")
+@Tag("User")
 @Severity(BLOCKER)
 @Owner("dimacm14")
-public class ReqresInTests extends BaseTest {
+@Feature("Работа с пользователями")
+public class UsersTests extends BaseTest {
 
-    @Feature("Работа с пользователями")
     @DisplayName("Получить пользователя")
     @Test
     void getUserTest() {
@@ -33,12 +37,11 @@ public class ReqresInTests extends BaseTest {
                         .extract().as(UserResponseModel.class));
 
         step("Проверить пользовательские данные", () -> {
-            assertEquals("janet.weaver@reqres.in", user.getData().getEmail());
-            assertEquals("https://reqres.in/#support-heading", user.getSupport().getUrl());
+            assertThat(user.getData().getEmail()).isEqualTo("janet.weaver@reqres.in");
+            assertThat(user.getSupport().getUrl()).isEqualTo("https://reqres.in/#support-heading");
         });
     }
 
-    @Feature("Работа с пользователями")
     @DisplayName("Получить несуществующего пользователя")
     @Test
     void getNotExistUserTest() {
@@ -51,7 +54,6 @@ public class ReqresInTests extends BaseTest {
                         .statusCode(404));
     }
 
-    @Feature("Работа с пользователями")
     @DisplayName("Получить список пользователей")
     @Test
     void getUserUserTest() {
@@ -65,13 +67,12 @@ public class ReqresInTests extends BaseTest {
                         .extract().as(UserListResponseModel.class));
 
         step("Проверить данные списка пользователей", () -> {
-            assertEquals("2", userList.getPage());
-            assertEquals("6", userList.getPerPage());
-            assertEquals("Michael", userList.getData()[0].getFirstName());
+            assertThat(userList.getPage()).isEqualTo("2");
+            assertThat(userList.getPerPage()).isEqualTo("6");
+            assertThat(userList.getData()[0].getFirstName()).isEqualTo("Michael");
         });
     }
 
-    @Feature("Работа с пользователями")
     @DisplayName("Создать нового пользователя")
     @Test
     void createUserTest() {
@@ -90,53 +91,32 @@ public class ReqresInTests extends BaseTest {
                         .extract().as(CreateUserResponseModel.class));
 
         step("Проверить пользовательские данные", () -> {
-            assertEquals("morpheus", user.getName());
-            assertEquals("leader", user.getJob());
+            assertThat(user.getName()).isEqualTo("morpheus");
+            assertThat(user.getJob()).isEqualTo("leader");
         });
     }
 
-    @Feature("Регистрация нового пользователя")
-    @DisplayName("Зарегистрировать нового пользователя c валидными даными")
+    @DisplayName("Обновить данные пользователя")
     @Test
-    void successfulRegistrationTest() {
-        RegistrationBodyModel registrationBody = new RegistrationBodyModel();
-        registrationBody.setEmail("eve.holt@reqres.in");
-        registrationBody.setPassword("pistol");
+    public void putUpdateUser() {
+        CreateUserBodyModel updateUserBody = new CreateUserBodyModel();
+        updateUserBody.setName("morpheus");
+        updateUserBody.setJob("zion resident");
 
-        RegistrationResponseModel registrationResponse =
-                step("Зарегистрировать нового пользователя c валидными даными", () ->
+        UpdateUserResponseModel updateUserResponse =
+                step("При обновлении данных пользователя ответ имеет код статуса 200", () ->
                         given(bodyRequestSpec)
-                                .body(registrationBody)
+                                .body(updateUserBody)
                                 .when()
-                                .post("/register")
+                                .put("/users/2")
                                 .then()
                                 .spec(responseSpec)
                                 .statusCode(200)
-                                .extract().as(RegistrationResponseModel.class));
+                                .extract().as(UpdateUserResponseModel.class));
 
-        step("Проверить регистрационные данные", () ->
-                assertEquals("QpwL5tke4Pnpja7X4", registrationResponse.getToken()));
-    }
-
-    @Feature("Регистрация нового пользователя")
-    @DisplayName("Зарегистрировать нового пользователя без пароля")
-    @Test
-    void unsuccessfulMissingPasswordRegistrationTest() {
-        RegistrationBodyModel registrationBody = new RegistrationBodyModel();
-        registrationBody.setEmail("eve.holt@reqres.in");
-
-        RegistrationResponseModel registrationResponse =
-                step("Зарегистрировать нового пользователя без пароля", () ->
-                        given(bodyRequestSpec)
-                                .body(registrationBody)
-                                .when()
-                                .post("/register")
-                                .then()
-                                .spec(responseSpec)
-                                .statusCode(400)
-                                .extract().as(RegistrationResponseModel.class));
-
-        step("Проверить сообщение об ошибке", () ->
-                assertEquals("Missing password", registrationResponse.getError()));
+        step("Проверить данные пользователя", () -> {
+            assertThat(updateUserResponse.getName()).isEqualTo("morpheus");
+            assertThat(updateUserResponse.getJob()).isEqualTo("zion resident");
+        });
     }
 }

@@ -1,4 +1,4 @@
-package dimacm14.models;
+package dimacm14.models.registration;
 
 import lombok.Data;
 

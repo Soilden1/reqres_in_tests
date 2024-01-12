@@ -1,0 +1,17 @@
+{
+  "base": {
+    "logo": "",
+    "project": "reqres_in",
+    "environment": "PROD",
+    "comment": "test result",
+    "reportLink": "https://jenkins.autotests.cloud/job/022-Soilden-reqres_in_tests/",
+    "language": "en",
+    "allureFolder": "allure-report",
+    "enableChart": true
+  },
+  "telegram": {
+    "token": "6627346569:AAEu6hwcyyELnPiBBLUjBZ6nvolPo_T1CcI",
+    "chat": "-1002033356024",
+    "replyTo": ""
+  }
+}
