@@ -1,6 +1,6 @@
 <h1 >Дипломный проект по тестированию API на <a href="https://reqres.in/">reqres.in</a></h1>
 
-(media/logo/reqres_logo.png)
+![reqres_in_logo.jpg](media/logo/reqres_logo.png)
 
 ## :page_with_curl: Содержание
 
