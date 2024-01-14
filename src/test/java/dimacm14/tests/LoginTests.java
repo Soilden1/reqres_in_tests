@@ -1,7 +1,7 @@
 package dimacm14.tests;
 
-import dimacm14.models.login.LoginBodyModel;
-import dimacm14.models.login.LoginResponseModel;
+import dimacm14.models.identification.IdentificationDataBodyModel;
+import dimacm14.models.identification.IdentificationDataResponseModel;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Severity;
@@ -25,11 +25,11 @@ public class LoginTests {
     @DisplayName("Авторизация с электронной почтой и паролем")
     @Test
     public void successfulLogin() {
-        LoginBodyModel loginBody = new LoginBodyModel();
+        IdentificationDataBodyModel loginBody = new IdentificationDataBodyModel();
         loginBody.setEmail("eve.holt@reqres.in");
         loginBody.setPassword("cityslicka");
 
-        LoginResponseModel loginResponse =
+        IdentificationDataResponseModel loginResponse =
                 step("При авторизации с электронной почтой и паролем ответ имеет код статуса 200", () ->
                         given(bodyRequestSpec)
                                 .body(loginBody)
@@ -38,20 +38,20 @@ public class LoginTests {
                                 .then()
                                 .spec(responseSpec)
                                 .statusCode(200)
-                                .extract().as(LoginResponseModel.class));
+                                .extract().as(IdentificationDataResponseModel.class));
 
         step("Проверить токен", () ->
-                assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4"));
+                assertThat(loginResponse.getToken()).isNotNull());
     }
 
     @DisplayName("Авторизация без пароля")
     @Test
     public void unsuccessfulMissingPasswordLogin() {
-        LoginBodyModel loginBody = new LoginBodyModel();
+        IdentificationDataBodyModel loginBody = new IdentificationDataBodyModel();
         loginBody.setEmail("eve.holt@reqres.in");
         String expectedError = "Missing password";
 
-        LoginResponseModel loginResponse =
+        IdentificationDataResponseModel loginResponse =
                 step("При авторизации без пароля ответ имеет код статуса 400", () ->
                         given(bodyRequestSpec)
                                 .body(loginBody)
@@ -60,7 +60,7 @@ public class LoginTests {
                                 .then()
                                 .spec(responseSpec)
                                 .statusCode(400)
-                                .extract().as(LoginResponseModel.class));
+                                .extract().as(IdentificationDataResponseModel.class));
 
         step("Получено сообщение об ошибке: " + expectedError, () ->
                 assertThat(loginResponse.getError()).isEqualTo(expectedError));

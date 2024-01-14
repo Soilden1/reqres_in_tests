@@ -1,9 +1,7 @@
 package dimacm14.tests;
 
-import dimacm14.models.createUser.CreateUserBodyModel;
-import dimacm14.models.createUser.CreateUserResponseModel;
-import dimacm14.models.user.UpdateUserResponseModel;
 import dimacm14.models.user.UserListResponseModel;
+import dimacm14.models.user.UserOperationModel;
 import dimacm14.models.user.UserResponseModel;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -76,11 +74,11 @@ public class UsersTests extends BaseTest {
     @DisplayName("Создать нового пользователя")
     @Test
     void createUserTest() {
-        CreateUserBodyModel createUserBody = new CreateUserBodyModel();
+        UserOperationModel createUserBody = new UserOperationModel();
         createUserBody.setName("morpheus");
         createUserBody.setJob("leader");
 
-        CreateUserResponseModel user = step("Создать нового пользователя", () ->
+        UserOperationModel user = step("Создать нового пользователя", () ->
                 given(bodyRequestSpec)
                         .body(createUserBody)
                         .when()
@@ -88,7 +86,7 @@ public class UsersTests extends BaseTest {
                         .then()
                         .spec(responseSpec)
                         .statusCode(201)
-                        .extract().as(CreateUserResponseModel.class));
+                        .extract().as(UserOperationModel.class));
 
         step("Проверить пользовательские данные", () -> {
             assertThat(user.getName()).isEqualTo("morpheus");
@@ -99,11 +97,11 @@ public class UsersTests extends BaseTest {
     @DisplayName("Обновить данные пользователя")
     @Test
     public void putUpdateUser() {
-        CreateUserBodyModel updateUserBody = new CreateUserBodyModel();
+        UserOperationModel updateUserBody = new UserOperationModel();
         updateUserBody.setName("morpheus");
         updateUserBody.setJob("zion resident");
 
-        UpdateUserResponseModel updateUserResponse =
+        UserOperationModel updateUserResponse =
                 step("При обновлении данных пользователя ответ имеет код статуса 200", () ->
                         given(bodyRequestSpec)
                                 .body(updateUserBody)
@@ -112,7 +110,7 @@ public class UsersTests extends BaseTest {
                                 .then()
                                 .spec(responseSpec)
                                 .statusCode(200)
-                                .extract().as(UpdateUserResponseModel.class));
+                                .extract().as(UserOperationModel.class));
 
         step("Проверить данные пользователя", () -> {
             assertThat(updateUserResponse.getName()).isEqualTo("morpheus");

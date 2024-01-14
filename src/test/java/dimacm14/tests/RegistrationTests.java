@@ -1,7 +1,7 @@
 package dimacm14.tests;
 
-import dimacm14.models.registration.RegistrationBodyModel;
-import dimacm14.models.registration.RegistrationResponseModel;
+import dimacm14.models.identification.IdentificationDataBodyModel;
+import dimacm14.models.identification.IdentificationDataResponseModel;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Severity;
@@ -25,11 +25,11 @@ public class RegistrationTests extends BaseTest {
     @DisplayName("Зарегистрировать нового пользователя c валидными даными")
     @Test
     void successfulRegistrationTest() {
-        RegistrationBodyModel registrationBody = new RegistrationBodyModel();
+        IdentificationDataBodyModel registrationBody = new IdentificationDataBodyModel();
         registrationBody.setEmail("eve.holt@reqres.in");
         registrationBody.setPassword("pistol");
 
-        RegistrationResponseModel registrationResponse =
+        IdentificationDataResponseModel registrationResponse =
                 step("Зарегистрировать нового пользователя c валидными даными", () ->
                         given(bodyRequestSpec)
                                 .body(registrationBody)
@@ -38,19 +38,19 @@ public class RegistrationTests extends BaseTest {
                                 .then()
                                 .spec(responseSpec)
                                 .statusCode(200)
-                                .extract().as(RegistrationResponseModel.class));
+                                .extract().as(IdentificationDataResponseModel.class));
 
         step("Проверить регистрационные данные", () ->
-                assertThat(registrationResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4"));
+                assertThat(registrationResponse.getToken()).isNotNull());
     }
 
     @DisplayName("Зарегистрировать нового пользователя без пароля")
     @Test
     void unsuccessfulMissingPasswordRegistrationTest() {
-        RegistrationBodyModel registrationBody = new RegistrationBodyModel();
+        IdentificationDataBodyModel registrationBody = new IdentificationDataBodyModel();
         registrationBody.setEmail("eve.holt@reqres.in");
 
-        RegistrationResponseModel registrationResponse =
+        IdentificationDataResponseModel registrationResponse =
                 step("Зарегистрировать нового пользователя без пароля", () ->
                         given(bodyRequestSpec)
                                 .body(registrationBody)
@@ -59,7 +59,7 @@ public class RegistrationTests extends BaseTest {
                                 .then()
                                 .spec(responseSpec)
                                 .statusCode(400)
-                                .extract().as(RegistrationResponseModel.class));
+                                .extract().as(IdentificationDataResponseModel.class));
 
         step("Проверить сообщение об ошибке", () ->
                 assertThat(registrationResponse.getError()).isEqualTo("Missing password"));

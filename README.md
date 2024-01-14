@@ -62,12 +62,12 @@ gradle clean test
 </p>
 
 <a id="allure"></a>
-## <img src="media/logo/Allure.svg" width="25" height="25"/></a> [Allure Report](https://jenkins.autotests.cloud/job/022-Soilden-reqres_in_tests/8/allure/) отчеты
+## <img src="media/logo/Allure.svg" width="25" height="25"/></a> [Allure Report](https://jenkins.autotests.cloud/job/022-Soilden-reqres_in_tests/allure/) отчеты
 
 ### Основное окно
 
 <p align="center">
-<a href="https://jenkins.autotests.cloud/job/22_Bubalov_FinalProject_Api/10/allure/"><img title="Allure Dashboard" src="media/images/allureDashboard.png"></a>
+<a href="https://jenkins.autotests.cloud/job/022-Soilden-reqres_in_tests/allure/"><img title="Allure Dashboard" src="media/images/allureDashboard.png"></a>
 </p>
 
 ### Отчеты по тестам
