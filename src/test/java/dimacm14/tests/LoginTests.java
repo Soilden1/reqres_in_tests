@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Severity(BLOCKER)
 @Owner("dimacm14")
 @Feature("Авторизация")
-public class LoginTests {
+public class LoginTests extends BaseTest {
 
     @DisplayName("Авторизация с электронной почтой и паролем")
     @Test
